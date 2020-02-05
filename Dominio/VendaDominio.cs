@@ -17,10 +17,10 @@ namespace Dominio
             string id = inputDataFromFile[1];
             string vendasStr = inputDataFromFile[2].Replace("[", "").Replace("]", "");
             string nomeVendedor = inputDataFromFile[3];
-            
+
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Id não informado");
-            
+
             if (string.IsNullOrEmpty(nomeVendedor))
                 throw new ArgumentException($"(Id: {Id}) Vendedor não informado");
 
