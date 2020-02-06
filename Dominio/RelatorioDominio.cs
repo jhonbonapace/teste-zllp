@@ -8,16 +8,18 @@ namespace Dominio
 {
     public class RelatorioDominio
     {
-        public IList<VendedorDominio> Vendedores { get; set; }
-        public IList<ClienteDominio> Clientes { get; set; }
-        public IList<VendaDominio> Vendas { get; set; }
+        private IList<VendedorDominio> Vendedores;
+        private IList<ClienteDominio> Clientes;
+        private IList<VendaDominio> Vendas;
 
         public RelatorioDominio(
             IList<VendedorDominio> vendedores,
             IList<ClienteDominio> clientes,
             IList<VendaDominio> vendas)
         {
-
+            Vendedores = vendedores;
+            Clientes = clientes;
+            Vendas = vendas;
         }
 
         private int TotalVendedores() => Vendedores != null ? Vendedores.Count : 0;
@@ -26,7 +28,7 @@ namespace Dominio
 
         private string VendaMaisCara() =>
             Vendas != null && Vendas.Count > 0 ?
-            Vendas.OrderByDescending(x => x.ValorTotal).First().Id
+            Vendas.OrderByDescending(x => x.ValorTotal).First().IdVenda
             : "Nenhuma venda para retornar";
 
         private string PiorVendedor() =>
@@ -41,7 +43,7 @@ namespace Dominio
 
         public string Exportar(string nomeArquivo)
         {
-            string pathDestino = Path.Combine(Pasta.FolderDataOut, nomeArquivo);
+            string pathDestino = Path.ChangeExtension(Path.Combine(Pasta.FolderDataOut, nomeArquivo), ".done.dat");
             File.WriteAllText(pathDestino, Gerar());
             return pathDestino;
         }

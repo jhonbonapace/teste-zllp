@@ -9,22 +9,29 @@ namespace Dominio
         public string Nome { get; private set; }
         public decimal Salario { get; private set; }
 
-        public VendedorDominio(string[] inputDataFromFile)
+        public VendedorDominio(string[] dadosEntrada)
         {
-            string cpf = inputDataFromFile[1];
-            string nome = inputDataFromFile[2]; 
-            decimal salario = Convert.ToDecimal(inputDataFromFile[3]);
+            if (dadosEntrada.Length != 4)
+                throw new ArgumentException($"(Id: {Id}) Dados de entrada com informações faltantes.");
+
+            string id = dadosEntrada[0];
+            string cpf = dadosEntrada[1];
+            string nome = dadosEntrada[2];
+            decimal salario = Convert.ToDecimal(dadosEntrada[3]);
 
             Regex regex = new Regex(@"[^\d]");
             cpf = regex.Replace(cpf, "");
 
-            if (string.IsNullOrEmpty(cpf))
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Id não informado");
+
+            if (string.IsNullOrWhiteSpace(cpf))
                 throw new ArgumentException($"(Id: {Id}) CPF não informado");
-            
+
             if (cpf.Length != 11)
                 throw new ArgumentException($"(Id: {Id}) Tamanho do CPF diferente de 11");
 
-            if (string.IsNullOrEmpty(nome))
+            if (string.IsNullOrWhiteSpace(nome))
                 throw new ArgumentException($"(Id: {Id}) Nome não informado");
 
             if (salario <= 0)

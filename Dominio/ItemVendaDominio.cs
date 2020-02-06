@@ -9,15 +9,18 @@ namespace Dominio
         public int Quantidade { get; private set; }
         public decimal Preco { get; private set; }
 
-        public ItemVendaDominio(string[] inputDataFromFile)
+        public ItemVendaDominio(string[] dadosEntrada)
         {
-            string id = inputDataFromFile[0];
-            int quantidade = Convert.ToInt32(inputDataFromFile[1]);
-            decimal preco = Convert.ToDecimal(inputDataFromFile[2]);
+            if (dadosEntrada.Length != 3)
+                throw new ArgumentException($"(Id: {Id}) Dados de entrada com informações faltantes.");
+
+            string id = dadosEntrada[0];
+            int quantidade = Convert.ToInt32(dadosEntrada[1]);
+            decimal preco = Convert.ToDecimal(dadosEntrada[2]);
 
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException($"Id não informado");
-            
+
             if (quantidade <= 0)
                 throw new ArgumentException($"(Id: {id}) Quantidade do item não informada");
 
